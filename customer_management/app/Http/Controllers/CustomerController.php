@@ -16,7 +16,7 @@ class CustomerController extends Controller
 {
     public function index(): Factory|View|Application
     {
-        $customers = Customer::paginate(3);
+        $customers = Customer::paginate(5);
         $cities = City::all();
         return view('customers.list', compact('customers', 'cities'));
     }
@@ -68,7 +68,7 @@ class CustomerController extends Controller
         $customer->delete();
 
         //dung session de dua ra thong bao
-        Session::flash('success', 'Xóa khách hàng thành công');
+        Session::flash('warning', 'Xóa khách hàng thành công');
 
         //xoa xong quay ve trang danh sach khach hang
         return redirect()->route('customers.index');
@@ -87,8 +87,18 @@ class CustomerController extends Controller
         return view('customers.list', compact('customers', 'cities', 'totalCustomerFilter', 'cityFilter'));
     }
 
-    public function search()
+    public function search(Request $request)
     {
+        $keyword = $request->input('keyword');
+        if (empty($keyword)) {
+            Session::flash('notfound', "Please insert search keyword");
+            return redirect()->route('customers.index');
+        }
+        $customers = Customer::where('name', 'LIKE', '%' . $keyword . '%')->paginate(5);
 
+        $countCustomers = $customers->count();
+        $cities = City::all();
+        Session::flash('info', "Tìm kiếm được $countCustomers khách hàng với từ khóa là: $keyword");
+        return view('customers.list', compact('customers', 'cities', 'keyword'));
     }
 }

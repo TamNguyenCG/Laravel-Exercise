@@ -25,7 +25,7 @@ class CustomerRequest extends FormRequest
     {
         return [
             'name' => 'required|min:5|max:20|regex:/^([^0-9]*)$/ ',
-            'email' => 'required|email|min:12',
+            'email' => 'required|email:filter|min:15',
             'dob'=>'required|before_or_equal:today'
         ];
     }
@@ -38,7 +38,7 @@ class CustomerRequest extends FormRequest
             'name.max' => 'Must be under 20 characters',
             'name.regex'=>'Must not include number',
             'email.required'=>'Must fill in the email field',
-            'email.email' => "Must include '@' in the email address",
+            'email.email' => "Wrong type of email address",
             'email.min'=>"Invalid email",
             'dob.required'=>"Must fill in the date of birth field",
             'dob.before_or_equal'=>'Must not over today'
