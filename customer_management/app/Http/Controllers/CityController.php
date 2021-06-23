@@ -52,7 +52,7 @@ class CityController extends Controller
         $city = City::findOrFail($id);
         $city->customers()->delete();
         $city->delete();
-        Session::flash('success', 'Xóa tỉnh thành thành công');
+        Session::flash('warning', 'Xóa tỉnh thành thành công');
         return redirect()->route('cities.index');
     }
 }

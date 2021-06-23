@@ -35,6 +35,14 @@
                 <script>
                     toastr.success("{!! Session::get('success') !!}")
                 </script>
+            @elseif(Session::has('warning'))
+                <script>
+                    toastr.warning("{!! Session::get('warning') !!}")
+                </script>
+            @elseif(Session::has('info'))
+                <script>
+                    toastr.info("{!! Session::get('info') !!}")
+                </script>
             @endif
         </div>
         <table class="table table-striped">
